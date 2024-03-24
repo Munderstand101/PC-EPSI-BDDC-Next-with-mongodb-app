@@ -6,6 +6,10 @@ const swaggerHandler = withSwagger({
     title: 'Sample Mflix API',
     version: '1.0.0',
     apiFolder: 'pages/api',
+    tags: [
+        { name: 'Movies', description: 'Endpoints related to movies' },
+        { name: 'Comments', description: 'Endpoints related to comments' }
+    ]
 });
 
 export default swaggerHandler();

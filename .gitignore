@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/with-mongodb-app.iml
+/.idea/vcs.xml

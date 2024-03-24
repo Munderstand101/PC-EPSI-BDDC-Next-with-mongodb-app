@@ -1,4 +1,5 @@
 // models/Comment.js
+
 export default class Comment {
     constructor({
                     name,

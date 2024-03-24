@@ -1,11 +1,13 @@
 // pages/api/movie/[idMovie].js
 import { findOneDocument, updateDocument, deleteDocument, ObjectId } from "../../../servicies/mongodbService";
-
+import NextCors from 'nextjs-cors';
 
 /**
  * @swagger
  * /api/movie/{idMovie}:
  *   get:
+ *     tags:
+ *        - Movies
  *     summary: Get movie by ID
  *     description: Get a movie by its ID.
  *     parameters:
@@ -23,6 +25,8 @@ import { findOneDocument, updateDocument, deleteDocument, ObjectId } from "../..
  *       500:
  *         description: Internal Server Error
  *   put:
+ *     tags:
+ *        - Movies
  *     summary: Update movie by ID
  *     description: Update a movie by its ID.
  *     parameters:
@@ -42,7 +46,7 @@ import { findOneDocument, updateDocument, deleteDocument, ObjectId } from "../..
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/MovieDetail'
+ *             $ref: '#/components/schemas/Movie'
  *     responses:
  *       200:
  *         description: Movie updated successfully
@@ -51,6 +55,8 @@ import { findOneDocument, updateDocument, deleteDocument, ObjectId } from "../..
  *       500:
  *         description: Internal Server Error
  *   delete:
+ *     tags:
+ *        - Movies
  *     summary: Delete movie by ID
  *     description: Delete a movie by its ID.
  *     parameters:
@@ -67,9 +73,111 @@ import { findOneDocument, updateDocument, deleteDocument, ObjectId } from "../..
  *         description: Movie not found
  *       500:
  *         description: Internal Server Error
+ * components:
+ *   schemas:
+ *     Movie:
+ *       type: object
+ *       properties:
+ *         plot:
+ *           type: string
+ *         genres:
+ *           type: array
+ *           items:
+ *             type: string
+ *         runtime:
+ *           type: number
+ *         cast:
+ *           type: array
+ *           items:
+ *             type: string
+ *         poster:
+ *           type: string
+ *         title:
+ *           type: string
+ *         fullplot:
+ *           type: string
+ *         languages:
+ *           type: array
+ *           items:
+ *             type: string
+ *         released:
+ *           type: string
+ *           format: date-time
+ *         directors:
+ *           type: array
+ *           items:
+ *             type: string
+ *         rated:
+ *           type: string
+ *         awards:
+ *           type: string
+ *         lastupdated:
+ *           type: string
+ *           format: date-time
+ *         year:
+ *           type: number
+ *         imdb:
+ *           type: object
+ *           properties:
+ *             rating:
+ *               type: number
+ *             votes:
+ *               type: number
+ *             id:
+ *               type: string
+ *         countries:
+ *           type: array
+ *           items:
+ *             type: string
+ *         type:
+ *           type: string
+ *         tomatoes:
+ *           type: object
+ *           properties:
+ *             viewer:
+ *               type: object
+ *               properties:
+ *                 rating:
+ *                   type: number
+ *                 numReviews:
+ *                   type: number
+ *                 meter:
+ *                   type: number
+ *             lastUpdated:
+ *               type: string
+ *               format: date-time
+ *         num_mflix_comments:
+ *           type: number
+ *       required:
+ *         - plot
+ *         - genres
+ *         - runtime
+ *         - cast
+ *         - poster
+ *         - title
+ *         - fullplot
+ *         - languages
+ *         - released
+ *         - directors
+ *         - rated
+ *         - awards
+ *         - lastupdated
+ *         - year
+ *         - imdb
+ *         - countries
+ *         - type
+ *         - tomatoes
+ *         - num_mflix_comments
  */
 
 export default async function handler(req, res) {
+
+    await NextCors(req, res, {
+        methods: ['GET', 'PUT', 'DELETE'], // Specify the methods allowed
+        origin: '*', // Adjust according to your needs, '*' allows all origins
+        optionsSuccessStatus: 200,
+    });
+
     const { idMovie } = req.query;
 
     switch (req.method) {

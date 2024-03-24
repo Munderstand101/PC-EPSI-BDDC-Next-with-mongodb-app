@@ -1,11 +1,14 @@
 // pages/api/movies.js
 import { findDocuments, insertDocument } from "../../servicies/mongodbService";
 import Movie from "../../models/Movie";
+import NextCors from 'nextjs-cors';
 
 /**
  * @swagger
  * /api/movies:
  *   get:
+ *     tags:
+ *        - Movies
  *     summary: Get all movies
  *     description: Retrieve a list of all movies.
  *     responses:
@@ -14,6 +17,8 @@ import Movie from "../../models/Movie";
  *       500:
  *         description: Internal Server Error
  *   post:
+ *     tags:
+ *        - Movies
  *     summary: Create a new movie
  *     description: Add a new movie to the database.
  *     requestBody:
@@ -29,8 +34,111 @@ import Movie from "../../models/Movie";
  *         description: Bad Request. Missing required fields.
  *       500:
  *         description: Internal Server Error
+ * components:
+ *   schemas:
+ *     Movie:
+ *       type: object
+ *       properties:
+ *         plot:
+ *           type: string
+ *         genres:
+ *           type: array
+ *           items:
+ *             type: string
+ *         runtime:
+ *           type: number
+ *         cast:
+ *           type: array
+ *           items:
+ *             type: string
+ *         poster:
+ *           type: string
+ *         title:
+ *           type: string
+ *         fullplot:
+ *           type: string
+ *         languages:
+ *           type: array
+ *           items:
+ *             type: string
+ *         released:
+ *           type: string
+ *           format: date-time
+ *         directors:
+ *           type: array
+ *           items:
+ *             type: string
+ *         rated:
+ *           type: string
+ *         awards:
+ *           type: string
+ *         lastupdated:
+ *           type: string
+ *           format: date-time
+ *         year:
+ *           type: number
+ *         imdb:
+ *           type: object
+ *           properties:
+ *             rating:
+ *               type: number
+ *             votes:
+ *               type: number
+ *             id:
+ *               type: string
+ *         countries:
+ *           type: array
+ *           items:
+ *             type: string
+ *         type:
+ *           type: string
+ *         tomatoes:
+ *           type: object
+ *           properties:
+ *             viewer:
+ *               type: object
+ *               properties:
+ *                 rating:
+ *                   type: number
+ *                 numReviews:
+ *                   type: number
+ *                 meter:
+ *                   type: number
+ *             lastUpdated:
+ *               type: string
+ *               format: date-time
+ *         num_mflix_comments:
+ *           type: number
+ *       required:
+ *         - plot
+ *         - genres
+ *         - runtime
+ *         - cast
+ *         - poster
+ *         - title
+ *         - fullplot
+ *         - languages
+ *         - released
+ *         - directors
+ *         - rated
+ *         - awards
+ *         - lastupdated
+ *         - year
+ *         - imdb
+ *         - countries
+ *         - type
+ *         - tomatoes
+ *         - num_mflix_comments
  */
 export default async function handler(req, res) {
+
+    // Initialize the cors middleware
+    await NextCors(req, res, {
+        methods: ['GET', 'POST'], // Specify the methods allowed
+        origin: '*', // Adjust according to your needs, '*' allows all origins
+        optionsSuccessStatus: 200,
+    });
+
     switch (req.method) {
         case "GET":
             try {

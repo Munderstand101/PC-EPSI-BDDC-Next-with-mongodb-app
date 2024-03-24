@@ -1,4 +1,5 @@
 // models/Movie.js
+
 export default class Movie {
     constructor({
                     plot,
